@@ -8,15 +8,19 @@ class ConnectDB:
 
         self.connection = None
         self.collection = None
+        self.env = "prod"
 
     # This function is used to connect to the database
     def connect_db(self, db='', collection=''):
 
-        # Establishing connection the local mongodb server
-        connection = MongoClient(host="localhost")
+        if self.env == "prod":
+            connection = MongoClient(host="localhost",
+                                     username="root",
+                                     password="=WshareH@2022",
+                                     authSource="admin",
+                                     authMechanism="SCRAM-SHA-1")
+        else:
+            connection = MongoClient(host="localhost")
 
-        # Setting the connection to the database
-        self.connection = connection["hello_world_db"]
-
-        # Returning the connection
+        self.connection = connection["test_db"]
         return self.connection
